@@ -4,21 +4,6 @@
 
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
 
-# This script will capturn the wake on lan signal from guacamole (or any virtual machine on vm's LAN network)
-# send by wakeonlan MAC_ADDRESS
-# then, send this signal to proxmox server (by the proxmox server ip address)
-# then, the scripts will be find out the vm id base on received mac address
-# then, turn on vm by id if found
-#
-# Note: Broadcast address for WoL packet maybe need to set to 255.255.255.255
-# So, there will be two scripts must be run in loop mode
-#
-# 1. Script run in the vm (just only in one vm in the LAN network, then you can send wol signal from any vm in same LAN)
-# 2. Script run in the proxmox server
-#
-# make it auto run at startup
-# crontab -e
-# @reboot  /path/to/this/file.sh
 
 vm_waiting_wakeonlan_signal() {
 	local listener_port=${1:-9}
