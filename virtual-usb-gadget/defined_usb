@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# require bash version > 4
+
+# list name of usb to auto create
+declare -A gg_name
+gg_name[0]=unRAIDbkServer
+
+declare -A gg_bf
+gg_bf[unRAIDbkServer]="/var/lib/vz/images/100/vm-100-disk-0.raw"
+gg_bf[g2]=/root/usb1.raw
+gg_bf[g3]=/root/usb2.raw
+
+declare -A gg_vid
+gg_vid[unRAIDbkServer]=0x0951
+gg_vid[g2]=0x0951
+gg_vid[g3]=0x0951
+
+declare -A gg_pid
+gg_pid[unRAIDbkServer]=0x1667
+gg_pid[g2]=0x1668
+gg_pid[g3]=0x1669
+
+declare -A gg_serial
+gg_serial[unRAIDbkServer]=E0D55EA573FCF3A0F82B0467
+gg_serial[g2]=E0D55EA573FCF3A0F82B0468
+gg_serial[g3]=E0D55EA573FCF3A0F82B0469
+
+declare -A gg_manuf
+gg_manuf[unRAIDbkServer]=Kingston
+gg_manuf[g2]=Kingston
+gg_manuf[g3]=Kingston
+
+declare -A gg_prod
+gg_prod[unRAIDbkServer]="DataTraveler 3.0"
+gg_prod[g2]="DataTraveler 3.0"
+gg_prod[g3]="DataTraveler 3.0"
