@@ -80,7 +80,7 @@ proxmox_main() {
                     if [[ $macstr == *"$macWOL"* ]]; then
                         log "found vm id: $id with mac address: $macWOL -> starting it now..."
 						qm start $id
-						break 2
+						break 3
                     fi
                 done
             fi
