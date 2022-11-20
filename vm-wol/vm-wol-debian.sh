@@ -79,7 +79,14 @@ proxmox_main() {
                     macstr=`echo "$macstr" | tr "[:upper:]" "[:lower:]"`
                     if [[ $macstr == *"$macWOL"* ]]; then
                         log "found vm id: $id with mac address: $macWOL -> starting it now..."
-						qm start $id
+						local vm_status=`qm status $id`
+						# status: running
+						# status: stopped
+						if [[ " $vm_status " == *" stopped "* ]]; then
+							qm start $id
+						else
+							echo "vm: $id status: $vm_status"
+						fi
 						break 3
                     fi
                 done
