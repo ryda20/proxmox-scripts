@@ -4,6 +4,8 @@
 
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
 
+log_to_file /var/log/proxmox-vm-wol.log
+
 
 vm_waiting_wakeonlan_signal() {
 	local listener_port=${1:-9}
