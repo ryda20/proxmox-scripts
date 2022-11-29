@@ -44,3 +44,5 @@ find "$dir" \
 	\( -exec grep -rl "${findstr1}" {} \; -a -exec sed -i -e "s/${findstr1}/${replace1}/g" {} \; \) \
 	\( -exec grep -rl "${findstr2}" {} \; -a -exec sed -i -e "s/${findstr2}/${replace2}/g" {} \; \)
 # find $dir -regex ".*\.\(js\)" \( -exec grep -rl "${findstr1}" {} \; -a -exec sed -i -e "s/${findstr1}/${replace1}/g" {} \; \) \(  -exec grep -rl "${findstr2}" {} \; -a -exec sed -i -e "s/${findstr2}/${replace2}/g" {} \; \)
+
+log "Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml"
