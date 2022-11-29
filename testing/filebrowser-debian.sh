@@ -39,12 +39,6 @@ WantedBy=multi-user.target
 	systemctl enable ${service_name}
 }
 
-## starting ##
-[[ -z "$(which curl)" ]] && apt install -y curl
-source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
-
-
-
 main() {
 	local args=("$@")
 	local address cachedir config database port rootdir
@@ -97,3 +91,9 @@ main() {
 	log "rootdir: $rootdir"
 	log "listen on: $address:$port"
 }
+
+## starting ##
+[[ -z "$(which curl)" ]] && apt install -y curl
+source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
+
+main "$@"
