@@ -1,12 +1,5 @@
 #!/bin/bash
 
-[[ -z "$(which curl)" ]] && apt install -y curl
-
-source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
-
-log_to_file /var/log/proxmox-vm-wol.log
-
-
 vm_waiting_wakeonlan_signal() {
 	local listener_port=${1:-9}
 	local server_listener_port=${2:-9}
@@ -22,9 +15,6 @@ vm_waiting_wakeonlan_signal() {
 	done
 }
 
-
-
-
 proxmox_qm_get_all_vm_id() {
 	# get list of all vm
 	# then, tr -s ' ': 	# replace each sequence of a repeated character
@@ -35,8 +25,6 @@ proxmox_qm_get_all_vm_id() {
 	vmid_column="$( qm list | tr -s ' ' | cut -d ' ' -f 2 )"
 	echo "$vmid_column"
 }
-
-
 
 proxmox_received_mac_addr() {
 	local listener_port=${1:-9}
@@ -133,6 +121,10 @@ WantedBy=multi-user.target
 }
 
 ## starting ##
+[[ -z "$(which curl)" ]] && apt install -y curl
+source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
+log_to_file /var/log/proxmox-vm-wol.log
+
 ## install for vm: ./vm-wol.sh install vm
 ## install for proxmox server: ./vm-wol.sh install
 cmd="${1}"
