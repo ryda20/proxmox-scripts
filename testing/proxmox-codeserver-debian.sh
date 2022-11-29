@@ -36,11 +36,11 @@ findstr1="style-src 'self' 'unsafe-inline'"
 replace1="style-src 'self' 'unsafe-inline' fonts.googleapis.com"
 findstr2="font-src 'self' blob:"
 replace2="font-src 'self' blob: fonts.gstatic.com"
+# only do on *.js file, can add another file extension: .*\(js\|html\|css\|ts\)
+# group 1: if exec 1 ok -> do exec 2, else, stop
+# group 2
 find "$dir" \
-	# only do on *.js file, can add another file extension: .*\(js\|html\|css\|ts\)
 	-regex ".*\.\(js\)" \
-	# group 1: if exec 1 ok -> do exec 2, else, stop
 	\( -exec grep -rl "${findstr1}" {} \; -a -exec sed -i -e "s/${findstr1}/${replace1}/g" {} \; \) \
-	# group 2
-	\(  -exec grep -rl "${findstr2}" {} \; -a -exec sed -i -e "s/${findstr2}/${replace2}/g" {} \; \)
+	\( -exec grep -rl "${findstr2}" {} \; -a -exec sed -i -e "s/${findstr2}/${replace2}/g" {} \; \)
 # find $dir -regex ".*\.\(js\)" \( -exec grep -rl "${findstr1}" {} \; -a -exec sed -i -e "s/${findstr1}/${replace1}/g" {} \; \) \(  -exec grep -rl "${findstr2}" {} \; -a -exec sed -i -e "s/${findstr2}/${replace2}/g" {} \; \)
