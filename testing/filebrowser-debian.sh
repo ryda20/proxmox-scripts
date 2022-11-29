@@ -77,13 +77,9 @@ main() {
 	mkdir -p "$rootdir"
 	mkdir -p "$HOME/.filebrowser"
 	#
-	make_service \
-		--config "$config" \
-		--address "$address" \
-		--port "$port" \
-		--cache-dir "$cachedir" \
-		--database "$database" \
-		--root "$rootdir"
+	local params="--address \"$address\" --port \"$port\" --cache-dir \"$cachedir\" --database \"$database\" --root \"$rootdir\""
+	[[ -n "$config" ]] && params="--config \"$config\" $params"
+	make_service "$params"
 
 	# log "generate options: $HOME/.filebrowser/filebrowser.yaml"
 	log "default username and password is: admin"
