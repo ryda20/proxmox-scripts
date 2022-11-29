@@ -4,7 +4,10 @@
 [[ -z "$(which curl)" ]] && apt install -y curl
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
 
-log "run as user: $(id)"
+#
+## run as root user
+#
+
 read -p "Install by install.sh script? [Y/n]" answer
 answer="${answer:-y}"
 if [[ "$answer" == "y" ]]; then
