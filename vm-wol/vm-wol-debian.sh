@@ -1,5 +1,12 @@
 #!/bin/bash
 
+[[ -z "$(which curl)" ]] && apt install -y curl
+
+source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
+
+log_to_file /var/log/proxmox-vm-wol.log
+
+
 vm_waiting_wakeonlan_signal() {
 	local listener_port=${1:-9}
 	local server_listener_port=${2:-9}
@@ -14,6 +21,9 @@ vm_waiting_wakeonlan_signal() {
 		echo "${received}" | nc -q 0.1 ${server_listener_addr} ${server_listener_port} 
 	done
 }
+
+
+
 
 proxmox_qm_get_all_vm_id() {
 	# get list of all vm
@@ -121,29 +131,23 @@ WantedBy=multi-user.target
 }
 
 ## starting ##
-[[ -z "$(which curl)" ]] && apt install -y curl
-source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
-log_to_file /var/log/proxmox-vm-wol.log
-
 ## install for vm: ./vm-wol.sh install vm
 ## install for proxmox server: ./vm-wol.sh install
 cmd="${1}"
 param="${2}"
 if [[ "$cmd" == "install" ]]; then
-	
 	make_service $param
-
 elif [[ "$cmd" == "vm" ]]; then
-	
-	log "starting script in vm"
+	log --title "vm script" "starting..."
 	while true; do
 		vm_waiting_wakeonlan_signal
 	done
-
+	log --end
 else
-	log "starting script in proxmox server"
+	log --title "proxmox script" "starting..."
 	[[ -z "$(which qm)" ]] && echo "not found qm command on this server. using \"${0} vm\" to run in vm machine" && exit 1
 	while true; do
 		proxmox_main
 	done
+	log --end
 fi
