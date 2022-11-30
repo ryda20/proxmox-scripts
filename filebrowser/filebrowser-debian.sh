@@ -22,8 +22,9 @@ Group=root
 TimeoutStartSec=0
 Restart=on-failure
 RestartSec=30s
+WorkingDirectory=$HOME/.filebrowser
 #ExecStartPre=
-ExecStart=filebrowser "$@"
+ExecStart=filebrowser \"$@\"
 SyslogIdentifier=Diskutilization
 #ExecStop=
 
@@ -41,55 +42,82 @@ WantedBy=multi-user.target
 
 main() {
 	local args=("$@")
-	local address cachedir config database port rootdir
+	local address cachedir config database port rootdir password
 	while [[ $# -gt 0 ]]; do
 		case $1 in 
-		--address|-a)
+		-p|--password)
+			shift; password="$1";;
+		-a|--address)
 			shift; address="$1";;
-		--port|-p)
+		-p|--port)
 			shift; port="$1";;
-		--cache-dir)
-			shift; cachedir="$1";;
-		--config|-c)
+		# --cache-dir)
+		# 	shift; cachedir="$1";;
+		-c|--config)
 			shift; config="$1";;
-		--database|-d)
+		-d|--database)
 			shift; database="$1";;
-		--root|-r)
+		-r|--root)
 			shift; rootdir="$1";;
 		*)
 			echo "";;
 		esac
 		shift
 	done
-
-	log "download and install"
-	curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
-
-
 	# default values
+	password="${password:-admin}"
 	address="${address:-0.0.0.0}"
 	port="${port:-1523}"
-	cachedir="${cachedir:-}"
-	config="${config:-}"
+	# cachedir="${cachedir:-}"
+	config="${config:-$HOME/.filebrowser/filebrowser.yaml}"
 	database="${database:-$HOME/.filebrowser/filebrowser.db}"
 	rootdir="${rootdir:-/rootdir}"
+
 	#
 	mkdir -p "$rootdir"
 	mkdir -p "$HOME/.filebrowser"
+
 	#
-	local params="--address \"$address\" --port \"$port\" --cache-dir \"$cachedir\" --database \"$database\" --root \"$rootdir\""
-	[[ -n "$config" ]] && params="--config \"$config\" $params"
-	make_service "$params"
+	log "stop it first"
+	systemctl stop filebrowser
+	#
+	log "download and install"
+	curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
+
+	# check
+	[[ -z "$(which filebrowser)" ]] && log --error "install FileBrowser not successfull" && exit 1
+	#
+	log "cd to $HOME/.filebrowser"
+	cd $HOME/.filebrowser
+	#
+	log "create config file first time"
+	filebrowser config init
+	#
+	log "change somme important values"
+	filebrowser config set --log /var/log/filebrowser.log
+	filebrowser config set --address $address --port $port
+	filebrowser config set --database $database
+	filebrowser config set --root $rootdir
+	log "create admin user..."
+	filebrowser users add admin $password --perm.admin
+	# [[ -n "$cachedir" ]] && filebrowser config set --cache-dir $cachedir
+
+	log "export config file to: $config"
+	filebrowser config export $config
+	# filebrowser config set --config $config
+
+	log "make a service file"
+	make_service "-c $config"
 
 	# log "generate options: $HOME/.filebrowser/filebrowser.yaml"
 	log "default username and password is: admin"
 	log "database: $database"
 	log "rootdir: $rootdir"
 	log "listen on: $address:$port"
+	log "default username: admin, password: $password"
 }
 
 ## starting ##
 [[ -z "$(which curl)" ]] && apt install -y curl
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
-
 main "$@"
