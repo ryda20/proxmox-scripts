@@ -97,7 +97,7 @@ PHOTOPRISM_ADMIN_PASSWORD='${PASS}'
 # Host information
 PHOTOPRISM_HTTP_HOST='0.0.0.0'
 PHOTOPRISM_HTTP_PORT='${PORT}'
-PHOTOPRISM_SITE_CAPTION='https://photos.rydafa.com'
+PHOTOPRISM_SITE_CAPTION=''
 
 #
 # PhotoPrism storage directories
