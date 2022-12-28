@@ -93,15 +93,23 @@ echo "
 PHOTOPRISM_AUTH_MODE='password'
 PHOTOPRISM_ADMIN_USER='${USER}'
 PHOTOPRISM_ADMIN_PASSWORD='${PASS}'
+
 # Host information
 PHOTOPRISM_HTTP_HOST='0.0.0.0'
 PHOTOPRISM_HTTP_PORT='${PORT}'
 PHOTOPRISM_SITE_CAPTION='https://photos.rydafa.com'
+
+#
 # PhotoPrism storage directories
+#
+# writable storage PATH for sidecar, cache, and database files
 PHOTOPRISM_STORAGE_PATH='/var/lib/photoprism/storage'
+# storage PATH of your original media files (photos and videos)
 PHOTOPRISM_ORIGINALS_PATH='/var/lib/photoprism/photos/Originals'
+# base PATH from which files can be imported to originals optional
 PHOTOPRISM_IMPORT_PATH='/var/lib/photoprism/photos/Import'
 #PHOTOPRISM_ASSETS_PATH=''
+
 # Log setting
 # trace, debug, info, warning, error, fatal, panic
 PHOTOPRISM_LOG_LEVEL=info
@@ -109,7 +117,8 @@ PHOTOPRISM_DEBUG=false
 PHOTOPRISM_TRACE=false
 # daemon-mode only
 #PHOTOPRISM_LOG_FILENAME=/var/lib/photoprism/storage/photoprism.log
-# # Uncomment below if using MariaDB/MySQL instead of SQLite (the default)
+
+# Uncomment below if using MariaDB/MySQL instead of SQLite (the default)
 PHOTOPRISM_DATABASE_DRIVER='mysql'
 PHOTOPRISM_DATABASE_SERVER='localhost:3306'
 PHOTOPRISM_DATABASE_NAME='${DBNAME}'
@@ -123,6 +132,7 @@ service_path="/etc/systemd/system/photoprism.service"
 echo "[Unit]
 Description=PhotoPrism service
 After=network.target
+
 [Service]
 Type=forking
 User=root
@@ -131,6 +141,7 @@ WorkingDirectory=/opt/photoprism
 EnvironmentFile=/var/lib/photoprism/.env
 ExecStart=/opt/photoprism/bin/photoprism up -d
 ExecStop=/opt/photoprism/bin/photoprism down
+
 [Install]
 WantedBy=multi-user.target" >$service_path
 
