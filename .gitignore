@@ -1,2 +1,5 @@
-.vscode
-.DS_Store
+# Ignore everything:
+*
+
+# Except for the themes directories:
+!testing/*

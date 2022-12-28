@@ -25,11 +25,11 @@ mysql_secure_installation
 # Ex: mysql -u vivek -p -e 'SELECT COUNT(*) FROM quotes' cbzquotes
 # create user and database
 mysql -u root -e 'show databases;'
-mysql -u root -e "CREATE DATABASE ${DPNAME};"
+mysql -u root -e "CREATE DATABASE ${DBNAME};"
 mysql -u root -e 'SHOW DATABASES;'
-mysql -u root -e "CREATE USER ${DBUSER}@localhost IDENTIFIED BY '${DPPASS}';"
+mysql -u root -e "CREATE USER ${DBUSER}@localhost IDENTIFIED BY '${DBPASS}';"
 mysql -u root -e "SELECT USER FROM mysql.user;"
-mysql -u root -e "GRANT ALL PRIVILEGES ON ${DPNAME}.* TO ${DBUSER}@localhost;"
+mysql -u root -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO ${DBUSER}@localhost;"
 mysql -u root -e "FLUSH PRIVILEGES;"
 mysql -u root -e "SHOW GRANTS FOR ${DBUSER}@localhost;"
 
