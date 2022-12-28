@@ -7,12 +7,12 @@ PORT=2342
 #
 # DB Variables
 DBUSER=photoprism
-DPPASS=photoprism
-DPNAME=photoprism
+DBPASS=photoprism
+DBNAME=photoprism
 
 
 # install mariadb
-apt install mariadb-server
+apt install -y mariadb-server
 mysql_secure_installation
 #
 # run sql command from terminal
@@ -73,9 +73,13 @@ git clone https://github.com/photoprism/photoprism.git
 cd photoprism
 git checkout release
 #
-# build
+# fix on lxc - remove sudo before command if current user is root
+if [[ $(id -u) -eq 0 ]]; then sed -i -e 's/sudo //g' Makefile
+#
+# build frontend and backend
 NODE_OPTIONS=--max_old_space_size=2048 make all
-./scripts/build.sh prod /opt/photoprism/bin/photoprism
+# adding cgo clags below to avoid error: https://github.com/mattn/go-sqlite3/issues/803
+CGO_CFLAGS="-g -O2 -Wno-return-local-addr" ./scripts/build.sh prod /opt/photoprism/bin/photoprism
 cp -r assets/ /opt/photoprism
 #
 # config for photoprism
@@ -97,6 +101,7 @@ PHOTOPRISM_SITE_CAPTION='https://photos.rydafa.com'
 PHOTOPRISM_STORAGE_PATH='/var/lib/photoprism/storage'
 PHOTOPRISM_ORIGINALS_PATH='/var/lib/photoprism/photos/Originals'
 PHOTOPRISM_IMPORT_PATH='/var/lib/photoprism/photos/Import'
+#PHOTOPRISM_ASSETS_PATH=''
 # Log setting
 # trace, debug, info, warning, error, fatal, panic
 PHOTOPRISM_LOG_LEVEL=info
@@ -121,7 +126,7 @@ After=network.target
 [Service]
 Type=forking
 User=root
-Group=root
+# Group=root
 WorkingDirectory=/opt/photoprism
 EnvironmentFile=/var/lib/photoprism/.env
 ExecStart=/opt/photoprism/bin/photoprism up -d
