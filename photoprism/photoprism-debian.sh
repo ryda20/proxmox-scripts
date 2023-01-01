@@ -40,7 +40,7 @@ mysql -u root -e "SHOW GRANTS FOR ${DBUSER}@localhost;"
 #
 
 # install depending
-apt install -y git curl gcc g++ gnupg make zip unzip exiftool ffmpeg
+apt install -y git curl gcc g++ gnupg make zip unzip exiftool ffmpeg libheif-examples
 
 # install nodejs
 curl -sL https://deb.nodesource.com/setup_18.x | bash -
