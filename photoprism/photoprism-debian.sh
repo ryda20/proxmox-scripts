@@ -40,7 +40,10 @@ mysql -u root -e "SHOW GRANTS FOR ${DBUSER}@localhost;"
 #
 
 # install depending
-apt install -y git curl gcc g++ gnupg make zip unzip exiftool ffmpeg libheif-examples
+apt install -y git curl gcc g++ gnupg make zip unzip exiftool ffmpeg
+# file converter tools: 
+# https://docs.photoprism.app/getting-started/config-options/#file-converters
+apt install -y darktable rawtherapee rawtherapee-data libheif-examples
 
 # install nodejs
 curl -sL https://deb.nodesource.com/setup_18.x | bash -
