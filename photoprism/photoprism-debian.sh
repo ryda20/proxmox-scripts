@@ -196,7 +196,7 @@ DBPASS=photoprism
 DBNAME=photoprism
 
 CURRENT_DIR=$(pwd)
-
+set -e
 log "root check"
 source ../app-scripts/root_required.sh
 log "install dependences"

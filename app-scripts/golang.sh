@@ -23,7 +23,8 @@ golang() {
 	ln -s /usr/local/go/bin/go /usr/local/bin/go
 
 	# cleanup, move to caller directory
-	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-	echo "script dir: $SCRIPT_DIR"
+	echo "The script you are running has basename $( basename -- "$0"; ), dirname $( dirname -- "$0"; )";
+	echo "The present working directory is $( pwd; )";
+	exit
 	cd $SCRIPT_DIR && rm -r $dir
 }
