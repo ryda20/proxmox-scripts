@@ -22,6 +22,7 @@ golang() {
 	tar -xzf go${version}.linux-amd64.tar.gz -C /usr/local
 	ln -s /usr/local/go/bin/go /usr/local/bin/go
 
-	# cleanup
-	cd ~ && rm -r $dir
+	# cleanup, move to caller directory
+	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+	cd $SCRIPT_DIR && rm -r $dir
 }

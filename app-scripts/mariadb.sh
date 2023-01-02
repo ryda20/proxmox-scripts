@@ -5,7 +5,7 @@ mariadb() {
 	local version dbname dbuser dbpass skip_add_db
 	while [[ $# -gt 0 ]]; do
 		case $1 in 
-		-v | --verion)
+		-v | --version)
 			shift; version="$1";;
 		-d | --dbname)
 			shift; dbname="$1";;

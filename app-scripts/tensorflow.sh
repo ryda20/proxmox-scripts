@@ -18,6 +18,7 @@ tensorflow() {
 	fi
 	ldconfig
 
-	# cleanup
-	cd ~ && rm -r $dir
+	# cleanup, move to caller directory
+	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+	cd $SCRIPT_DIR && rm -r $dir
 }
