@@ -195,17 +195,27 @@ DBUSER=photoprism
 DBPASS=photoprism
 DBNAME=photoprism
 
+CURRENT_DIR=$(pwd)
 log "root check"
 source ../app-scripts/root_required.sh
 log "install dependences"
 dependences
+
 log "install golang"
 source ../app-scripts/golang.sh 		&& golang --version 1.19.3
+cd $CURRENT_DIR
+
 log "install mariadb"
 source ../app-scripts/mariadb.sh 		&& mariadb --dbname $DBNAME --dbuser $DBUSER --dbpass $DBPASS
+cd $CURRENT_DIR
+
 log "install nodejs"
 source ../app-scripts/nodejs.sh 		&& nodejs --verison 18.x
+cd $CURRENT_DIR
+
 log "install tensorflow"
 source ../app-scripts/tensorflow.sh 	&& tensorflow
+cd $CURRENT_DIR
+
 log "install photoprism"
 photoprism --user $PUSER --pass $PPASS --port $PPORT --dbuser $DBNAME --dbpass $DBPASS --dbname $DBNAME
