@@ -2,7 +2,7 @@
 
 tensorflow() {
 	# make temp directory as working dir
-	dir=`mktemp -d` && cd $dir
+	currentdir=$(pwd) && dir=`mktemp -d` && cd $dir
 
 	# install tensorlow
 	AVX=$(grep -o -m1 'avx[^ ]*' /proc/cpuinfo)
@@ -18,7 +18,5 @@ tensorflow() {
 	fi
 	ldconfig
 
-	# cleanup, move to caller directory
-	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-	cd $SCRIPT_DIR && rm -r $dir
+	cd $currentdir && rm -r $dir
 }
