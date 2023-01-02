@@ -16,7 +16,7 @@ golang() {
 	# make temp directory as working dir
 	dir=`mktemp -d` && cd $dir
 
-	# install golang
+	echo "download and install golang ${version}"
 	rm -rf /usr/local/go
 	wget https://golang.org/dl/go${version}.linux-amd64.tar.gz
 	tar -xzf go${version}.linux-amd64.tar.gz -C /usr/local
