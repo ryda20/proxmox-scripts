@@ -182,6 +182,9 @@ WantedBy=multi-user.target
 	cd ~ && rm -r $dir
 }
 
+
+source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/ryda20/bashlog/master/log.sh)"
+
 # photoprism variables
 PUSER=admin
 PPASS=changeme
@@ -192,10 +195,17 @@ DBUSER=photoprism
 DBPASS=photoprism
 DBNAME=photoprism
 
+log "root check"
 source ../app-scripts/root_required.sh
+log "install dependences"
 dependences
+log "install golang"
 source ../app-scripts/golang.sh 		&& golang --version 1.19.3
+log "install mariadb"
 source ../app-scripts/mariadb.sh 		&& mariadb --dbname $DBNAME --dbuser $DBUSER --dbpass $DBPASS
+log "install nodejs"
 source ../app-scripts/nodejs.sh 		&& nodejs --verison 18.x
+log "install tensorflow"
 source ../app-scripts/tensorflow.sh 	&& tensorflow
+log "install photoprism"
 photoprism --user $PUSER --pass $PPASS --port $PPORT --dbuser $DBNAME --dbpass $DBPASS --dbname $DBNAME
