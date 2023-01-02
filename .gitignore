@@ -1,5 +1,5 @@
-# Ignore everything:
-*
+# # Ignore everything:
+# *
 
-# Except for the themes directories:
-!testing/*
+# # Except for the themes directories:
+# !testing/*
