@@ -10,7 +10,7 @@ mariadb() {
 		-d | --dbname)
 			shift; dbname="$1";;
 		-u | --dbuser)
-			shift; dbpuser="$1";;
+			shift; dbuser="$1";;
 		-p | --dbpass)
 			shift; dbpass="$1";;
 		-s | --skip-add-db)
