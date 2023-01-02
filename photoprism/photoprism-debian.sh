@@ -151,12 +151,12 @@ PHOTOPRISM_DATABASE_PASSWORD='${__dbpass}'
 	fi
 	# setting ENV
 	env_path="/var/lib/photoprism/.env"
-	echo $options > $env_path
+	echo -e "$options" > $env_path
 	chmod 640 $env_path
 	#
 	# create a service
 	service_path="/etc/systemd/system/photoprism.service"
-	echo "
+	echo -e "
 [Unit]
 Description=PhotoPrism service
 After=network.target
