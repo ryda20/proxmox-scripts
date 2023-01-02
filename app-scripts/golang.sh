@@ -24,5 +24,6 @@ golang() {
 
 	# cleanup, move to caller directory
 	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+	echo "script dir: $SCRIPT_DIR"
 	cd $SCRIPT_DIR && rm -r $dir
 }
