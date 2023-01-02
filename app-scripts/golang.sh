@@ -7,7 +7,7 @@ golang() {
 		-v | --version)
 			shift; version="$1";;
 		*)
-			echo "Unknow flag $1" && return;;
+			echo "Unknow flag $1" && exit 1;;
 		esac
 		shift
 	done
