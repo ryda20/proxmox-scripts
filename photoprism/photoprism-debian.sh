@@ -12,27 +12,29 @@ DBNAME=photoprism
 
 
 # install mariadb
-apt install -y mariadb-server
-mysql_secure_installation
-#
-# run sql command from terminal
-# mysql -u user -p 'password' -e 'Your SQL Query Here' database-name
-# -u : Specify mysql database user name
-# -p : Prompt for password
-# -e : Execute sql query
-# database : Specify database name
-# Ex: mysql -u vivek -p -e 'show databases;'
-# Ex: mysql -u vivek -p -e 'SELECT COUNT(*) FROM quotes' cbzquotes
-# create user and database
-mysql -u root -e 'show databases;'
-mysql -u root -e "CREATE DATABASE ${DBNAME};"
-mysql -u root -e 'SHOW DATABASES;'
-mysql -u root -e "CREATE USER ${DBUSER}@localhost IDENTIFIED BY '${DBPASS}';"
-mysql -u root -e "SELECT USER FROM mysql.user;"
-mysql -u root -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO ${DBUSER}@localhost;"
-mysql -u root -e "FLUSH PRIVILEGES;"
-mysql -u root -e "SHOW GRANTS FOR ${DBUSER}@localhost;"
-
+installation_mariadb() {
+	
+	apt install -y mariadb-server
+	mysql_secure_installation
+	#
+	# run sql command from terminal
+	# mysql -u user -p 'password' -e 'Your SQL Query Here' database-name
+	# -u : Specify mysql database user name
+	# -p : Prompt for password
+	# -e : Execute sql query
+	# database : Specify database name
+	# Ex: mysql -u vivek -p -e 'show databases;'
+	# Ex: mysql -u vivek -p -e 'SELECT COUNT(*) FROM quotes' cbzquotes
+	# create user and database
+	mysql -u root -e 'show databases;'
+	mysql -u root -e "CREATE DATABASE ${DBNAME};"
+	mysql -u root -e 'SHOW DATABASES;'
+	mysql -u root -e "CREATE USER ${DBUSER}@localhost IDENTIFIED BY '${DBPASS}';"
+	mysql -u root -e "SELECT USER FROM mysql.user;"
+	mysql -u root -e "GRANT ALL PRIVILEGES ON ${DBNAME}.* TO ${DBUSER}@localhost;"
+	mysql -u root -e "FLUSH PRIVILEGES;"
+	mysql -u root -e "SHOW GRANTS FOR ${DBUSER}@localhost;"
+}
 
 
 #
@@ -56,14 +58,14 @@ rm go1.19.3.linux-amd64.tar.gz
 # install tensorlow
 AVX=$(grep -o -m1 'avx[^ ]*' /proc/cpuinfo)
 if [[ "$AVX" =~ avx2 ]]; then
-  wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-avx2-1.15.2.tar.gz
-  tar -C /usr/local -xzf libtensorflow-linux-avx2-1.15.2.tar.gz
+	wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-avx2-1.15.2.tar.gz
+	tar -C /usr/local -xzf libtensorflow-linux-avx2-1.15.2.tar.gz
 elif [[ "$AVX" =~ avx ]]; then
-  wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-avx-1.15.2.tar.gz
-  tar -C /usr/local -xzf libtensorflow-linux-avx-1.15.2.tar.gz
+	wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-avx-1.15.2.tar.gz
+	tar -C /usr/local -xzf libtensorflow-linux-avx-1.15.2.tar.gz
 else
-  wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-cpu-1.15.2.tar.gz
-  tar -C /usr/local -xzf libtensorflow-linux-cpu-1.15.2.tar.gz
+	wget https://dl.photoprism.org/tensorflow/linux/libtensorflow-linux-cpu-1.15.2.tar.gz
+	tar -C /usr/local -xzf libtensorflow-linux-cpu-1.15.2.tar.gz
 fi
 ldconfig
 
@@ -74,7 +76,9 @@ cd photoprism
 git checkout release
 #
 # fix on lxc - remove sudo before command if current user is root
-if [[ $(id -u) -eq 0 ]]; then sed -i -e 's/sudo //g' Makefile
+if [[ $(id -u) -eq 0 ]]; then 
+	sed -i -e 's/sudo //g' Makefile
+fi
 #
 # build frontend and backend
 NODE_OPTIONS=--max_old_space_size=2048 make all
@@ -149,11 +153,11 @@ WantedBy=multi-user.target" >$service_path
 apt autoremove
 apt autoclean
 rm -rf /var/{cache,log}/* \
-  /photoprism \
-  /go1.19.3.linux-amd64.tar.gz \
-  /libtensorflow-linux-avx2-1.15.2.tar.gz \
-  /libtensorflow-linux-avx-1.15.2.tar.gz \
-  /libtensorflow-linux-cpu-1.15.2.tar.gz
+	/photoprism \
+	/go1.19.3.linux-amd64.tar.gz \
+	/libtensorflow-linux-avx2-1.15.2.tar.gz \
+	/libtensorflow-linux-avx-1.15.2.tar.gz \
+	/libtensorflow-linux-cpu-1.15.2.tar.gz
 
 
 # starting photoprism
