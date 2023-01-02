@@ -4,7 +4,7 @@ golang() {
 	local version
 	while [[ $# -gt 0 ]]; do
 		case $1 in 
-		-v | --verion)
+		-v | --version)
 			shift; version="$1";;
 		*)
 			echo "Unknow flag $1" && return;;
