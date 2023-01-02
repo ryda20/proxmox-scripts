@@ -192,10 +192,10 @@ DBUSER=photoprism
 DBPASS=photoprism
 DBNAME=photoprism
 
-source ../app-scripts/base			&& root_required
+source ../app-scripts/root_required.sh
 dependences
-source ../app-scripts/golang 		&& golang --version 1.19.3
-source ../app-scripts/mariadb 		&& mariadb --dbname $DBNAME --dbuser $DBUSER --dbpass $DBPASS
-source ../app-scripts/nodejs 		&& nodejs --verison 18.x
-source ../app-scripts/tensorflow 	&& tensorflow
+source ../app-scripts/golang.sh 		&& golang --version 1.19.3
+source ../app-scripts/mariadb.sh 		&& mariadb --dbname $DBNAME --dbuser $DBUSER --dbpass $DBPASS
+source ../app-scripts/nodejs.sh 		&& nodejs --verison 18.x
+source ../app-scripts/tensorflow.sh 	&& tensorflow
 photoprism --user $PUSER --pass $PPASS --port $PPORT --dbuser $DBNAME --dbpass $DBPASS --dbname $DBNAME

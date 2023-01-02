@@ -1,5 +1,4 @@
 #!/bin/bash
-source base.sh
 
 # install mariadb
 mariadb() {

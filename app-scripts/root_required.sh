@@ -8,4 +8,4 @@ root_required() {
 	fi
 }
 
-
+root_required

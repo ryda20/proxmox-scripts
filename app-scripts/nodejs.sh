@@ -1,6 +1,4 @@
 #!/bin/bash
-source base.sh
-
 
 nodejs() {
 	local version
