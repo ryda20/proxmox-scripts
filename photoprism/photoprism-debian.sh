@@ -196,7 +196,7 @@ DBPASS=photoprism
 DBNAME=photoprism
 
 
-export PROXMOX_SCRIPTS="$( dirname -- "$(pwd)"; )"
+PROXMOX_SCRIPTS="${PROXMOX_SCRIPTS:-$( dirname -- "$(pwd)"; )}"
 
 log "root check"
 source ${PROXMOX_SCRIPTS}/app-scripts/root_required.sh
